@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Layout from './components/Layout'
+import Home from './views/Home'
 
 function OtherPage () {
   return (
@@ -11,11 +13,12 @@ function OtherPage () {
 function App () {
   return (
     <Router>
-      <Routes>
-        <Route path="/" Component={OtherPage} />
-        <Route path="/route" Component={OtherPage} />
-        <Route path="*" Component={OtherPage} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" Component={Home} />
+          <Route path="*" Component={OtherPage} />
+        </Routes>
+      </Layout>
     </Router>
   )
 }
