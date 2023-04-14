@@ -1,14 +1,7 @@
+import { type Session } from './Session'
+
 export interface Routine {
+  id: string
   name: string
   sessions: Session[]
-}
-
-interface Session {
-  type: SessionType
-  duration: number
-}
-
-interface SessionType {
-  id: number
-  name: string
 }

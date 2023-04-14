@@ -9,8 +9,8 @@ const Sidebar = () => {
   const [open, setOpen] = useState<boolean>(false)
 
   const menu = [
-    { name: 'Practice', path: '/', icon: <StickyNote2OutlinedIcon /> },
-    { name: 'Historial', path: '/historial', icon: <HistoryIcon /> }
+    { name: 'Mis Rutinas', path: '/', icon: <StickyNote2OutlinedIcon /> },
+    { name: 'Crear Rutina', path: '/create', icon: <HistoryIcon /> }
   ]
 
   return (

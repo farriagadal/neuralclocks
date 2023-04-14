@@ -1,13 +1,11 @@
 
 import { Container } from './styles'
-import { useSelector } from 'react-redux'
+import ListRoutines from '@/components/ListRoutines'
 
 const Home = () => {
-  const store = useSelector((state: any) => state.resources)
-
   return (
     <Container>
-      asdasd
+      <ListRoutines />
     </Container>
   )
 }
