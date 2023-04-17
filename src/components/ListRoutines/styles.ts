@@ -24,3 +24,12 @@ export const Table = styled.table`
     width: 100%;
   }
 `
+
+export const Empty = styled.div`
+  border: dashed 4px #d0c9c9;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+`
