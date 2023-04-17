@@ -8,6 +8,14 @@ export const Container = styled.div<SidebarProps>`
   min-width: ${props => (props.open ? '240px' : '60px')};
   weight: ${props => (props.open ? '240px' : '60px')};
   display: block;
+
+
+  @media (max-width: 768px) {
+    position: fixed;
+    background: ${props => (props.open ? '#fff' : 'transparent')};
+    z-index: 1;
+    height: 100vh;
+  }
 `
 
 export const ToggleBtn = styled.div<SidebarProps>`
@@ -22,6 +30,11 @@ export const ToggleBtn = styled.div<SidebarProps>`
   
   svg {
     transform: ${props => (props.open ? 'rotate(0deg)' : 'rotate(180deg)')};
+  }
+
+  @media (max-width: 768px) {
+    background: #fff;
+    border-radius: 0 0 10px 0;
   }
 `
 
@@ -71,5 +84,20 @@ export const List = styled.div<SidebarProps>`
         font-weight: 700;
       }
     }
+  }
+
+  @media (max-width: 768px) {
+    display: ${props => (props.open ? 'block' : 'none')};
+  }
+`
+
+export const Logo = styled.img<SidebarProps>`
+  height: 50px;
+  position: fixed;
+  bottom: 20px;
+  left: 12px;
+
+  @media (max-width: 768px) {
+    display: ${props => (props.open ? 'block' : 'none')};
   }
 `

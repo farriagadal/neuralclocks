@@ -45,5 +45,8 @@ export const Content = styled.div`
 
   @media (max-width: 768px) {
     padding: 20px;
+    padding-top: 100px;
+    max-width: 100vw;
+    overflow: hidden;
   }
 `
