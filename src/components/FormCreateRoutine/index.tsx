@@ -85,7 +85,7 @@ const Home = () => {
   return (
     <Container>
       <h1>Crea tu rutina</h1>
-      <TextField label="Ingresa un nombre" variant="outlined" onChange={(event) => { setName(event.target.value) }} />
+      <TextField autoFocus label="Ingresa un nombre" variant="outlined" onChange={(event) => { setName(event.target.value) }} />
       <h2>Añade sesiones</h2>
       <ItemCreate>
         <InputSelect

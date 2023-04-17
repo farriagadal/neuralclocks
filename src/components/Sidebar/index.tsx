@@ -1,7 +1,7 @@
 import { Container, ToggleBtn, List, Logo } from './styles'
 import { NavLink, useLocation } from 'react-router-dom'
 import MenuOpenRoundedIcon from '@mui/icons-material/MenuOpenRounded'
-import StickyNote2OutlinedIcon from '@mui/icons-material/StickyNote2Outlined'
+import StickyNote2OutlinedIcon from '@mui/icons-material/StickyNote2'
 import { useState } from 'react'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 
