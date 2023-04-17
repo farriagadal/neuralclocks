@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux'
 import ClockTimer from '@/components/ClockTimer'
 import { useState } from 'react'
 import { dateFormatted } from '@/utils/date'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Routine = () => {
   const { id } = useParams()
@@ -14,10 +16,20 @@ const Routine = () => {
 
   const handleTimerEnd = () => {
     if (indexSession < routine.sessions.length - 1) {
-      alert('Sesión terminada!')
+      toast.info('Sesión terminada!', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        theme: 'colored'
+      })
       setIndexSession(indexSession + 1)
     } else {
-      alert('Terminaste la rutina!')
+      toast.info('Terminaste la rutina!', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        theme: 'colored'
+      })
     }
   }
 
@@ -35,6 +47,7 @@ const Routine = () => {
           </Item>
         ))}
       </ListSessions>
+      <ToastContainer />
     </Container>
   )
 }

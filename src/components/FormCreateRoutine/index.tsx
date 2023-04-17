@@ -1,6 +1,6 @@
 
 import { Container, ItemCreate, Empty } from './styles'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import InputTimer from '@/components/InputTimer'
 import DeleteIcon from '@mui/icons-material/Delete'
 import TextField from '@mui/material/TextField'
@@ -11,6 +11,9 @@ import { type Session } from '@/models/Session'
 import { type SessionType } from '@/models/SessionType'
 import { addRoutine } from '@/store/slices/routines'
 import AddBoxIcon from '@mui/icons-material/AddBox'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { useNavigate } from 'react-router-dom'
 
 const sessionTypes: SessionType[] = [
   { id: 1, name: 'Trabajo' },
@@ -18,6 +21,8 @@ const sessionTypes: SessionType[] = [
 ]
 
 const Home = () => {
+  const routines = useSelector((state: any) => state.routines)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const [name, setName] = useState<string>('')
   const [sessions, setSessions] = useState<Session[]>([])
@@ -27,11 +32,15 @@ const Home = () => {
   })
 
   const handleAddSession = () => {
-    console.log('newSession: ', newSession)
     if (newSession?.type && newSession.duration && newSession.duration > 0) {
       setSessions([...sessions, newSession])
     } else {
-      alert('Debes seleccionar un tipo de sesión y una duración')
+      toast.error('Debes seleccionar un tipo de sesión y una duración', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        theme: 'colored'
+      })
     }
   }
 
@@ -49,15 +58,29 @@ const Home = () => {
 
   const saveRoutine = () => {
     if (name && sessions.length > 0) {
-      // crear slug con el nombre
-      const slug = name.toLowerCase().replace(/ /g, '-')
+      let slug = name.toLowerCase().replace(/ /g, '-')
+
+      const exists = routines.routines.find((routine: any) => routine.id === slug)
+      if (exists) {
+        let i = 1
+        while (routines.routines.find((routine: any) => routine.id === `${slug}-${i}`)) {
+          i++
+        }
+        slug = `${slug}-${i}`
+      }
+
       dispatch(addRoutine({ id: slug, name, sessions }))
+      // go to routine
+      navigate(`/routines/${slug}`)
     } else {
-      alert('Debes ingresar un nombre y al menos una sesión')
+      toast.error('Debes ingresar un nombre y al menos una sesión', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        theme: 'colored'
+      })
     }
   }
-
-  console.log('sessions: ', sessions)
 
   return (
     <Container>
@@ -110,6 +133,7 @@ const Home = () => {
       <Button variant="contained" endIcon={<AddBoxIcon />} size="large" onClick={() => { saveRoutine() }}>
         Crear
       </Button>
+      <ToastContainer />
     </Container>
   )
 }

@@ -1,7 +1,7 @@
 
 import { Container, Table } from './styles'
 import { useSelector } from 'react-redux'
-import AddRoundedIcon from '@mui/icons-material/AddRounded'
+import AddBoxIcon from '@mui/icons-material/AddBox'
 import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import { type Routine } from '@/models/Routine'
@@ -41,7 +41,7 @@ const ListRoutines = () => {
           ))}
         </tbody>
       </Table>
-      <Button variant="contained" endIcon={<AddRoundedIcon />} size="large" onClick={() => { navigate('/create') }}>
+      <Button variant="contained" endIcon={<AddBoxIcon />} size="large" onClick={() => { navigate('/create') }}>
         Nueva rutina
       </Button>
     </Container>

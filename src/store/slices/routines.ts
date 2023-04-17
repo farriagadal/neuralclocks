@@ -14,7 +14,6 @@ export const routinesSlice = createSlice({
   initialState,
   reducers: {
     addRoutine: (state, action: PayloadAction<Routine>) => {
-      console.log('addRoutine payload', action.payload)
       state.routines = [action.payload, ...state.routines]
     }
   }
