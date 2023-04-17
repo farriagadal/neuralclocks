@@ -1,32 +1,30 @@
 
-import { Container, ItemCreate } from './styles'
-import { useDispatch, useSelector } from 'react-redux'
+import { Container, ItemCreate, Empty } from './styles'
+import { useDispatch } from 'react-redux'
 import InputTimer from '@/components/InputTimer'
+import DeleteIcon from '@mui/icons-material/Delete'
 import TextField from '@mui/material/TextField'
 import InputSelect from '@/components/InputSelect'
-import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { type Session } from '@/models/Session'
 import { type SessionType } from '@/models/SessionType'
 import { addRoutine } from '@/store/slices/routines'
+import AddBoxIcon from '@mui/icons-material/AddBox'
 
-const sessionTypesExample = [
-  {
-    id: 1,
-    name: 'Trabajo'
-  },
-  {
-    id: 2,
-    name: 'Descanso'
-  }
+const sessionTypes: SessionType[] = [
+  { id: 1, name: 'Trabajo' },
+  { id: 2, name: 'Descanso' }
 ]
 
 const Home = () => {
   const dispatch = useDispatch()
   const [name, setName] = useState<string>('')
   const [sessions, setSessions] = useState<Session[]>([])
-  const [newSession, setNewSession] = useState<Session | null>(null)
+  const [newSession, setNewSession] = useState<Session | null>({
+    type: sessionTypes[0],
+    duration: 1500
+  })
 
   const handleAddSession = () => {
     console.log('newSession: ', newSession)
@@ -65,20 +63,22 @@ const Home = () => {
     <Container>
       <h1>Crea tu rutina</h1>
       <TextField label="Ingresa un nombre" variant="outlined" onChange={(event) => { setName(event.target.value) }} />
-      <h2>Añade a tu rutina</h2>
+      <h2>Añade sesiones</h2>
       <ItemCreate>
         <InputSelect
-          options={sessionTypesExample}
+          options={sessionTypes}
           onChange={(value) => { setNewSession({ ...newSession, type: value }) }}
           label="Tipo de sesión"
+          initialValue={newSession?.type}
         />
         <InputTimer
           label="Duración"
           onChange={(value) => { setNewSession({ ...newSession, duration: value }) }}
+          initialValue={newSession?.duration}
         />
         <Button
           variant="contained"
-          endIcon={<AddRoundedIcon />}
+          endIcon={<AddBoxIcon />}
           size="large"
           onClick={() => { handleAddSession() }}
         >
@@ -87,13 +87,13 @@ const Home = () => {
       </ItemCreate>
 
       <h2>Tu rutina</h2>
-
-      {sessions.map((session, index) => (
+      {sessions.length === 0 && <Empty>Aún no has añadido ninguna sesión</Empty>}
+      { sessions.map((session, index) => (
         <ItemCreate key={index}>
-          <label>{index + 1}</label>
+          {/* <label>{index + 1}</label> */}
           <InputSelect
             label="Tipo de sesión"
-            options={sessionTypesExample}
+            options={sessionTypes}
             onChange={(value) => { handleChangeSession(index, { ...session, type: value }) }}
             initialValue={session.type}
           />
@@ -102,12 +102,12 @@ const Home = () => {
             onChange={(value) => { handleChangeSession(index, { ...session, duration: value }) }}
             initialValue={session.duration}
           />
-          <Button variant="contained" endIcon={<AddRoundedIcon />} size="large" onClick={() => { handleRemoveSession(index) }}>
+          <Button variant="contained" endIcon={<DeleteIcon />} size="large" onClick={() => { handleRemoveSession(index) }}>
             Elminar
           </Button>
         </ItemCreate>
       ))}
-      <Button variant="contained" endIcon={<AddRoundedIcon />} size="large" onClick={() => { saveRoutine() }}>
+      <Button variant="contained" endIcon={<AddBoxIcon />} size="large" onClick={() => { saveRoutine() }}>
         Crear
       </Button>
     </Container>

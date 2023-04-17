@@ -1,7 +1,12 @@
 import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
-import { Container } from './styles'
+import { Container, Buttons } from './styles'
 import { useState, useEffect } from 'react'
+import Button from '@mui/material/Button'
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded'
+import PauseRoundedIcon from '@mui/icons-material/PauseRounded'
+import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded'
+import { dateFormatted } from '@/utils/date'
 
 type ClockTimerProps = {
   duration: number // in seconds
@@ -10,7 +15,7 @@ type ClockTimerProps = {
 
 const ClockTimer = ({ duration, onTimerEnd }: ClockTimerProps) => {
   const [timeLeft, setTimeLeft] = useState(duration)
-  const [paused, setPaused] = useState(false)
+  const [paused, setPaused] = useState(true)
 
   useEffect(() => {
     let timer: NodeJS.Timeout
@@ -26,9 +31,17 @@ const ClockTimer = ({ duration, onTimerEnd }: ClockTimerProps) => {
 
   useEffect(() => {
     if (timeLeft === 0) {
-      onTimerEnd()
+      setPaused(true)
+      setTimeout(() => {
+        onTimerEnd()
+      }, 1000)
     }
   }, [timeLeft, onTimerEnd])
+
+  // Reset timeLeft when duration changes
+  useEffect(() => {
+    setTimeLeft(duration)
+  }, [duration])
 
   const handlePauseResumeClick = () => {
     setPaused((paused) => !paused)
@@ -39,21 +52,30 @@ const ClockTimer = ({ duration, onTimerEnd }: ClockTimerProps) => {
     setTimeLeft(duration)
   }
 
-  const minutes = Math.floor(timeLeft / 60)
-    .toString()
-    .padStart(2, '0')
-  const seconds = (timeLeft % 60).toString().padStart(2, '0')
-
   return (
     <Container>
       <CircularProgressbar
         value={(duration - timeLeft) / duration * 100}
-        text={`${minutes}:${seconds}`}
+        text={dateFormatted(timeLeft)}
       />
-      <div>
-        <button onClick={handlePauseResumeClick}>{paused ? 'Resume' : 'Pause'}</button>
-        <button onClick={handleResetClick}>Reset</button>
-      </div>
+      <Buttons>
+        <Button
+          variant="contained"
+          endIcon={paused ? <PlayArrowRoundedIcon /> : <PauseRoundedIcon />}
+          size="large"
+          onClick={handlePauseResumeClick}
+        >
+          {paused ? 'Iniciar' : 'Pausar'}
+        </Button>
+        <Button
+          variant="contained"
+          endIcon={<ReplayRoundedIcon />}
+          size="large"
+          onClick={handleResetClick}
+        >
+          Reiniciar
+        </Button>
+      </Buttons>
     </Container>
   )
 }
